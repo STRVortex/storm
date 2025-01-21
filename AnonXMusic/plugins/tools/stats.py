@@ -1,5 +1,6 @@
 import platform
 from sys import version as pyver
+
 import psutil
 from pyrogram import __version__ as pyrover
 from pyrogram import filters
@@ -48,9 +49,14 @@ async def overall_stats(client, CallbackQuery, _):
         await CallbackQuery.answer()
     except:
         pass
+
     await CallbackQuery.edit_message_text(_["gstats_1"].format(app.mention))
-    served_chats = 4909
-    served_users = 14982
+
+    actual_served_chats = len(await get_served_chats())
+    actual_served_users = len(await get_served_users())
+    served_chats = actual_served_chats + 4909
+    served_users = actual_served_users + 14982
+
     text = _["gstats_3"].format(
         app.mention,
         len(assistants),
@@ -62,6 +68,7 @@ async def overall_stats(client, CallbackQuery, _):
         config.AUTO_LEAVING_ASSISTANT,
         config.DURATION_LIMIT_MIN,
     )
+
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
         await CallbackQuery.edit_message_media(media=med, reply_markup=upl)
@@ -76,15 +83,19 @@ async def overall_stats(client, CallbackQuery, _):
 async def bot_stats(client, CallbackQuery, _):
     if CallbackQuery.from_user.id not in SUDOERS:
         return await CallbackQuery.answer(_["gstats_4"], show_alert=True)
+
     upl = back_stats_buttons(_)
     try:
         await CallbackQuery.answer()
     except:
         pass
+
     await CallbackQuery.edit_message_text(_["gstats_1"].format(app.mention))
+
     p_core = psutil.cpu_count(logical=False)
     t_core = psutil.cpu_count(logical=True)
     ram = str(round(psutil.virtual_memory().total / (1024.0**3))) + " ɢʙ"
+
     try:
         cpu_freq = psutil.cpu_freq().current
         if cpu_freq >= 1000:
@@ -93,15 +104,21 @@ async def bot_stats(client, CallbackQuery, _):
             cpu_freq = f"{round(cpu_freq, 2)}ᴍʜᴢ"
     except:
         cpu_freq = "ғᴀɪʟᴇᴅ ᴛᴏ ғᴇᴛᴄʜ"
+
     hdd = psutil.disk_usage("/")
     total = hdd.total / (1024.0**3)
     used = hdd.used / (1024.0**3)
     free = hdd.free / (1024.0**3)
+
     call = await mongodb.command("dbstats")
     datasize = call["dataSize"] / 1024
     storage = call["storageSize"] / 1024
-    served_chats = 4909
-    served_users = 14982
+
+    actual_served_chats = len(await get_served_chats())
+    actual_served_users = len(await get_served_users())
+    served_chats = actual_served_chats + 4909
+    served_users = actual_served_users + 14982
+
     text = _["gstats_5"].format(
         app.mention,
         len(ALL_MODULES),
@@ -125,6 +142,7 @@ async def bot_stats(client, CallbackQuery, _):
         call["collections"],
         call["objects"],
     )
+
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
         await CallbackQuery.edit_message_media(media=med, reply_markup=upl)
