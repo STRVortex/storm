@@ -27,3 +27,4 @@ youtube-search-python==1.6.6
 flask_restful
 flask
 gunicorn
+gpytranslate
