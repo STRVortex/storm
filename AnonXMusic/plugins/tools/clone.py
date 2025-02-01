@@ -1,4 +1,4 @@
-"""import re
+import re
 import logging
 import asyncio
 import importlib
@@ -185,4 +185,4 @@ async def delete_all_cloned_bots(client, message):
         await message.reply_text("All cloned bots have been deleted successfully.")
     except Exception as e:
         await message.reply_text("An error occurred while deleting all cloned bots.")
-        logging.exception(e)"""
+        logging.exception(e)
