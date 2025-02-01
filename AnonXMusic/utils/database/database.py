@@ -4,8 +4,55 @@ from typing import Dict, List, Union
 from AnonXMusic import userbot
 from AnonXMusic.core.mongo import mongodb, pymongodb
 
+authdb = mongodb.adminauth
+authuserdb = mongodb.authuser
+autoenddb = mongodb.autoend
+assdb = mongodb.assistants
+blacklist_chatdb = mongodb.blacklistChat
+blockeddb = mongodb.blockedusers
+chatsdb = mongodb.chats
+channeldb = mongodb.cplaymode
+countdb = mongodb.upcount
+gbansdb = mongodb.gban
+langdb = mongodb.language
+onoffdb = mongodb.onoffper
+playmodedb = mongodb.playmode
+playtypedb = mongodb.playtypedb
+skipdb = mongodb.skipmode
+sudoersdb = mongodb.sudoers
+usersdb = mongodb.tgusersdb
+privatedb = mongodb.privatechats
+suggdb = mongodb.suggestion
+cleandb = mongodb.cleanmode
+queriesdb = mongodb.queries
+userdb = mongodb.userstats
+videodb = mongodb.vipvideocalls
 chatsdbc = mongodb.chatsc  # for clone
 usersdbc = mongodb.tgusersdbc  # for clone
+
+# Shifting to memory [mongo sucks often]
+active = []
+activevideo = []
+assistantdict = {}
+autoend = {}
+count = {}
+channelconnect = {}
+langm = {}
+loop = {}
+maintenance = []
+nonadmin = {}
+pause = {}
+playmode = {}
+playtype = {}
+skipmode = {}
+privatechats = {}
+cleanmode = []
+suggestion = {}
+mute = {}
+audio = {}
+video = {}
+
+# Total Queries on bot
 
 async def get_assistant(chat_id: int) -> str:
     from AnonXMusic.core.userbot import assistants
