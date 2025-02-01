@@ -35,7 +35,7 @@ UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
     "https://github.com/STRVortex/storm",
 )
-UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "mainr")
+UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "main")
 GIT_TOKEN = getenv(
     "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"
 )  # Fill this variable if your upstream repository is private
