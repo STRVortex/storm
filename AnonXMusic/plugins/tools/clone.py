@@ -10,11 +10,11 @@ from pyrogram.errors.exceptions.bad_request_400 import (
     AccessTokenExpired,
     AccessTokenInvalid,
 )
-from AnonXMusic.utils.database import get_assistant
+from AnonXMusic.utils.vdatabase import get_assistant
 from config import API_ID, API_HASH
 from AnonXMusic import app
 from AnonXMusic.misc import SUDOERS
-from AnonXMusic.utils.database import get_assistant, clonebotdb
+from AnonXMusic.utils.vdatabase import get_assistant, clonebotdb
 from config import LOGGER_ID
 
 CLONES = set()
