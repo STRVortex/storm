@@ -2,9 +2,9 @@ import time, re
 from pyrogram.enums import MessageEntityType
 from pyrogram import filters
 from pyrogram.types import Message
-from Vortex import app
-from Vortex.utils.afkdb import add_afk, is_afk, remove_afk
-from Vortex.utils.readable_time import get_readable_time
+from AnonXMusic import app
+from AnonXMusic.utils.afkdb import add_afk, is_afk, remove_afk
+from AnonXMusic.utils.readable_time import get_readable_time
 
 @app.on_message(filters.command(["afk"], prefixes=["/"]))
 async def active_afk(_, message: Message):
