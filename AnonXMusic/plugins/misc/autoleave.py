@@ -37,16 +37,16 @@ async def auto_leave():
                                         await client.leave_chat(i.chat.id)
                                         left += 1
                                     except Exception as e:
-                                        print(f"Error leaving chat {i.chat.id}: {e}")
+                                        print(f"Eʀʀᴏʀ ʟᴇᴀᴠɪɴɢ ᴍʏ ᴅᴇsᴛɪɴʏ ᴄʜᴀᴛ {i.chat.id}: {e}")
                                         continue
                 except Exception as e:
-                    print(f"Error in auto_leave function: {e}")
+                    print(f"Eʀʀᴏʀ ɪɴ auto_leave ғᴜɴᴄᴛɪᴏɴ: {e}")
                     pass
 
 
 async def auto_end():
     while True:
-        await asyncio.sleep(5)  # Check every 5 seconds
+        await asyncio.sleep(260)  # Check every 5 seconds
         ender = await is_autoend()
         if not ender:
             continue
@@ -62,7 +62,7 @@ async def auto_end():
                 try:
                     await Anony.stop_stream(chat_id)
                 except Exception as e:
-                    print(f"Error stopping stream in chat {chat_id}: {e}")
+                    print(f"Eʀʀᴏʀ ᴛᴇʀᴍɪɴᴀᴛɪɴɢ ᴍᴜsɪᴄ ɪɴ ᴄʜᴀᴛ {chat_id}: {e}")
                     continue
                 try:
                     await app.send_message(
