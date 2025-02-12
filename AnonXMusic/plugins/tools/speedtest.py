@@ -1,5 +1,4 @@
 import asyncio
-
 import speedtest
 from pyrogram import filters
 from pyrogram.types import Message
@@ -27,18 +26,30 @@ def testspeed(m, _):
 @app.on_message(filters.command(["speedtest", "spt"]) & SUDOERS)
 @language
 async def speedtest_function(client, message: Message, _):
-    m = await message.reply_text(_["server_11"])
-    loop = asyncio.get_event_loop()
-    result = await loop.run_in_executor(None, testspeed, m, _)
-    output = _["server_15"].format(
-        result["client"]["isp"],
-        result["client"]["country"],
-        result["server"]["name"],
-        result["server"]["country"],
-        result["server"]["cc"],
-        result["server"]["sponsor"],
-        result["server"]["latency"],
-        result["ping"],
-    )
-    msg = await message.reply_photo(photo=result["share"], caption=output)
-    await m.delete()
+    try:
+        m = await message.reply_text(_["server_11"])
+        
+        # Using asyncio.get_event_loop().run_in_executor for running testspeed
+        loop = asyncio.get_event_loop()
+        result = await loop.run_in_executor(None, testspeed, m, _)
+
+        output = _["server_15"].format(
+            result["client"]["isp"],
+            result["client"]["country"],
+            result["server"]["name"],
+            result["server"]["country"],
+            result["server"]["cc"],
+            result["server"]["sponsor"],
+            result["server"]["latency"],
+            result["ping"],
+        )
+
+        msg = await message.reply_photo(photo=result["share"], caption=output)
+        await m.delete()
+
+    except asyncio.CancelledError:
+        # Handle cancellation gracefully (e.g., bot is shutting down)
+        await message.reply_text("Sᴘᴇᴇᴅᴛᴇsᴛ ᴡᴀs ᴅᴇᴛᴏɴᴀᴛᴇᴅ ᴅᴜᴇ ᴛᴏ ʙᴏᴛ sʜᴜᴛᴅᴏᴡɴ.")
+    except Exception as e:
+        # Handle any other unexpected errors
+        await message.reply_text(f"ᴇxᴄᴇᴘᴛɪᴏɴᴀʟ ᴇʀʀᴏʀ ᴇʟᴇᴠᴀᴛᴇᴅ: {e}")
