@@ -1,10 +1,14 @@
-import time, re
-from pyrogram.enums import MessageEntityType
+import re
+import time
+
 from pyrogram import filters
+from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
+
 from AnonXMusic import app
 from AnonXMusic.utils.afkdb import add_afk, is_afk, remove_afk
 from AnonXMusic.utils.readable_time import get_readable_time
+
 
 @app.on_message(filters.command(["afk"], prefixes=["/"]))
 async def active_afk(_, message: Message):
