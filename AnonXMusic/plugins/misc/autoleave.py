@@ -11,7 +11,8 @@ from AnonXMusic.utils.database import get_client, is_active_chat, is_autoend
 
 async def auto_leave():
     if config.AUTO_LEAVING_ASSISTANT:
-        while not await asyncio.sleep(900):
+        while True:
+            await asyncio.sleep(900)  # Sleep for 15 minutes
             from AnonXMusic.core.userbot import assistants
 
             for num in assistants:
@@ -35,17 +36,17 @@ async def auto_leave():
                                     try:
                                         await client.leave_chat(i.chat.id)
                                         left += 1
-                                    except:
+                                    except Exception as e:
+                                        print(f"Error leaving chat {i.chat.id}: {e}")
                                         continue
-                except:
+                except Exception as e:
+                    print(f"Error in auto_leave function: {e}")
                     pass
 
 
-asyncio.create_task(auto_leave())
-
-
 async def auto_end():
-    while not await asyncio.sleep(5):
+    while True:
+        await asyncio.sleep(5)  # Check every 5 seconds
         ender = await is_autoend()
         if not ender:
             continue
@@ -60,15 +61,30 @@ async def auto_end():
                 autoend[chat_id] = {}
                 try:
                     await Anony.stop_stream(chat_id)
-                except:
+                except Exception as e:
+                    print(f"Error stopping stream in chat {chat_id}: {e}")
                     continue
                 try:
                     await app.send_message(
                         chat_id,
-                        "» Sᴛᴏʀᴍ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ʟᴇғᴛ ᴠɪᴅᴇᴏᴄʜᴀᴛ ʙᴇᴄᴀᴜsᴇ ɴᴏ ᴏɴᴇ ᴡᴀs ʟɪsᴛᴇɴɪɴɢ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ.",
+                        "» Sᴛᴏʀᴍ ᴘʟᴀʏᴇʀ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ʟᴇғᴛ ᴠɪᴅᴇᴏᴄʜᴀᴛ ʙᴇᴄᴀᴜsᴇ ɴᴏ ᴏɴᴇ ᴡᴀs ʟɪsᴛᴇɴɪɴɢ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ.",
                     )
-                except:
+                except Exception as e:
+                    print(f"Eʀʀᴏʀ ᴡʜɪʟᴇ sʜᴀʀɪɴɢ ᴍᴇssᴀɢᴇ ɪɴ ᴄʜᴀᴛ {chat_id}: {e}")
                     continue
 
 
-asyncio.create_task(auto_end())
+async def main():
+    # Create tasks here
+    task_leave = asyncio.create_task(auto_leave())
+    task_end = asyncio.create_task(auto_end())
+
+    # Run until a termination signal or timeout occurs
+    try:
+        await asyncio.gather(task_leave, task_end)
+    except asyncio.CancelledError:
+        pass
+
+
+if __name__ == "__main__":
+    asyncio.run(main())  # More controlled event loop
