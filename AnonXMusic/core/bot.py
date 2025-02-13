@@ -1,14 +1,13 @@
+import asyncio
+import signal
 from pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus, ParseMode
-
 import config
-
 from ..logging import LOGGER
-
 
 class Anony(Client):
     def __init__(self):
-        LOGGER(__name__).info(f"Starting Bot...")
+        LOGGER(__name__).info(f"Sᴛᴀʀᴛɪɴɢ Sᴛᴏʀᴍ Mᴜsɪᴄ Bᴀʙʏ...")
         super().__init__(
             name="AnonXMusic",
             api_id=config.API_ID,
@@ -33,22 +32,47 @@ class Anony(Client):
             )
         except (errors.ChannelInvalid, errors.PeerIdInvalid):
             LOGGER(__name__).error(
-                "Bot has failed to access the log group/channel. Make sure that you have added your bot to your log group/channel."
+                "Sᴛᴏʀᴍ ʜᴀs ғᴀɪʟᴇᴅ ᴛᴏ ᴀᴄᴄᴇss ᴛʜᴇ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ. Mᴀᴋᴇ sᴜʀᴇ ᴛʜᴀᴛ ʏᴏᴜ ʜᴀᴠᴇ ᴀᴅᴅᴇᴅ sᴛᴏʀᴍ ᴍᴜsɪᴄ ᴛᴏ ʏᴏᴜʀ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ."
             )
             exit()
         except Exception as ex:
             LOGGER(__name__).error(
-                f"Bot has failed to access the log group/channel.\n  Reason : {type(ex).__name__}."
+                f"ᴠᴏʀᴛᴇx ᴍᴜsɪᴄ ʜᴀs ғᴀɪʟᴇᴅ ᴛᴏ ᴀᴄᴄᴇss ᴛʜᴇ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ.\n  Reason : {type(ex).__name__}."
             )
             exit()
 
         a = await self.get_chat_member(config.LOGGER_ID, self.id)
         if a.status != ChatMemberStatus.ADMINISTRATOR:
             LOGGER(__name__).error(
-                "Please promote your bot as an admin in your log group/channel."
+                "ᴘʟᴇᴀsᴇ ᴘʀᴏᴍᴏᴛᴇ Sᴛᴏʀᴍ Vᴏʀᴛᴇx Mᴜsɪᴄ As ᴀᴅᴍɪɴ ɪɴ ʏᴏᴜʀ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ."
             )
             exit()
-        LOGGER(__name__).info(f"Music Bot Started as {self.name}")
+        LOGGER(__name__).info(f"Sᴛᴏʀᴍ Mᴜsɪᴄ Sᴛᴀʀᴛᴇᴅ ᴀs {self.name}")
 
     async def stop(self):
+        LOGGER(__name__).info(f"ɢɪᴠɪɴɢ ᴀ ʀᴇsᴛ ᴛᴏ sᴛᴏʀᴍ...")
         await super().stop()
+
+
+# Function to handle shutdown when Ctrl+C is pressed
+def handle_shutdown_signal(loop, bot):
+    print("Gʀᴀᴄᴇғᴜʟʟʏ sʜᴜᴛᴛɪɴɢ ᴅᴏᴡɴ...")
+    loop.stop()  # Stop the event loop
+    asyncio.create_task(bot.stop())  # Stop the bot gracefully
+
+# Main entry point to run the bot
+if __name__ == "__main__":
+    bot = Anony()
+
+    loop = asyncio.get_event_loop()
+
+    # Register signal handler for SIGINT (Ctrl+C)
+    loop.add_signal_handler(signal.SIGINT, handle_shutdown_signal, loop, bot)
+
+    try:
+        # Start the bot
+        loop.run_until_complete(bot.start())
+    except KeyboardInterrupt:
+        print("Bot interrupted. Exiting...")
+    finally:
+        loop.close()  # Ensure the loop is closed after shutdown
