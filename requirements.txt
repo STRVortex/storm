@@ -24,7 +24,7 @@ unidecode
 yt-dlp
 youtube-search
 youtube-search-python==1.6.6
-flask_restful
+flask_restful==0.3.10
 flask
 gunicorn
 gpytranslate
