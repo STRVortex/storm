@@ -34,19 +34,20 @@ class Anony(Client):
             LOGGER(__name__).error(
                 "Sᴛᴏʀᴍ ʜᴀs ғᴀɪʟᴇᴅ ᴛᴏ ᴀᴄᴄᴇss ᴛʜᴇ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ. Mᴀᴋᴇ sᴜʀᴇ ᴛʜᴀᴛ ʏᴏᴜ ʜᴀᴠᴇ ᴀᴅᴅᴇᴅ sᴛᴏʀᴍ ᴍᴜsɪᴄ ᴛᴏ ʏᴏᴜʀ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ."
             )
-            exit()
+            await self.stop()  # Graceful exit instead of exit()
         except Exception as ex:
             LOGGER(__name__).error(
                 f"ᴠᴏʀᴛᴇx ᴍᴜsɪᴄ ʜᴀs ғᴀɪʟᴇᴅ ᴛᴏ ᴀᴄᴄᴇss ᴛʜᴇ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ.\n  Reason : {type(ex).__name__}."
             )
-            exit()
+            await self.stop()  # Graceful exit instead of exit()
 
         a = await self.get_chat_member(config.LOGGER_ID, self.id)
         if a.status != ChatMemberStatus.ADMINISTRATOR:
             LOGGER(__name__).error(
                 "ᴘʟᴇᴀsᴇ ᴘʀᴏᴍᴏᴛᴇ Sᴛᴏʀᴍ Vᴏʀᴛᴇx Mᴜsɪᴄ As ᴀᴅᴍɪɴ ɪɴ ʏᴏᴜʀ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ."
             )
-            exit()
+            await self.stop()  # Graceful exit instead of exit()
+
         LOGGER(__name__).info(f"Sᴛᴏʀᴍ Mᴜsɪᴄ Sᴛᴀʀᴛᴇᴅ ᴀs {self.name}")
 
     async def stop(self):
