@@ -73,6 +73,6 @@ if __name__ == "__main__":
         # Start the bot
         loop.run_until_complete(bot.start())
     except KeyboardInterrupt:
-        print("Bot interrupted. Exiting...")
+        print("sᴛᴏʀᴍ ɪs ᴍᴀɴɪᴘᴜʟᴀᴛᴇᴅ. Exɪᴛɪɴɢ...")
     finally:
         loop.close()  # Ensure the loop is closed after shutdown
